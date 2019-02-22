@@ -1,0 +1,90 @@
+<div>
+  <div class="todos todoinput__outer">
+
+    <div class="todoinput__header">
+      <h2> ToDos </h2>
+    </div>
+
+    <div class="todos todoinput__inner">
+      <form (submit)="addTodo($event)">
+        <input [(ngModel)]="newTodo" (keyup.enter)="newTodo=''" class="textfield" name="newTodo">
+        <button type="submit" [disabled]="newTodo===''">Add Todo </button>
+      </form>
+    </div>
+
+    <app-todolist [todos]="todos"></app-todolist>
+
+    <div class="mtop20 todos todoinput__inner">
+      <button (click)="deleteSelectedTodos()">Delete Selected</button>
+    </div>
+
+  </div>
+
+  <div class="todoinput__outer">
+    <h1 class="mat-display-1">Todos</h1>
+    <div class="flex-container">
+      <mat-card>
+        <mat-list cdkDropList class="item-list" (cdkDropListDropped)="drop($event)">
+          <mat-list-item>
+            <mat-checkbox [ngModel]="all" (change)="toggleAll()"></mat-checkbox>
+            <mat-form-field>
+              <input matInput placeholder="Enter todo item" #newitem (keyup.enter)="addItem(newitem.value); newitem.value=''">
+              <button mat-button *ngIf="newitem.value" matSuffix mat-icon-button aria-label="clear" (click)="newitem.value=''">
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <div *ngFor="let item of getItems(); let i=index">
+            <mat-list-item *ngIf="edit !== i" cdkDrag class="item-box">
+              <div>
+                <mat-checkbox [ngModel]="item.completed" (change)="toggleItem(item.i)" [class.completed]="item.completed">{{item.title}}</mat-checkbox>
+                <button mat-button mat-icon-button class="edit" (click)="edit=i" matTooltip="Edit">
+                  <mat-icon aria-label="Edit">edit</mat-icon>
+                </button>
+              </div>
+              <div style="margin-left: auto">
+                <button mat-button mat-icon-button (click)="delItem(item.i)" matTooltip="Delete">
+                  <mat-icon aria-label="Remove">delete_outline</mat-icon>
+                </button>
+              </div>
+            </mat-list-item>
+            <mat-list-item *ngIf="edit === i" cdkDrag class="item-box">
+              <mat-checkbox [ngModel]="item.completed" (change)="toggleItem(item.i)"></mat-checkbox>
+              <mat-form-field>
+                <input matInput #editor [(ngModel)]="item.title" (keyup.enter)="reTitle(item.i)" (focusout)="reTitle(item.i)">
+                {{ editor.focus() }}
+              </mat-form-field>
+              <div>
+                <button mat-button mat-icon-button (click)="delItem(item.i)" matTooltip="Delete">
+                  <mat-icon aria-label="Remove">delete_outline</mat-icon>
+                </button>
+              </div>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+          </div>
+          <mat-list-item *ngIf="items.length > 0" class="filter">
+            <span (click)="filter='all'">
+              <button *ngIf="filter === 'all'" mat-stroked-button>All</button>
+              <button *ngIf="filter !== 'all'" mat-button>All</button>
+            </span>
+            <span (click)="filter='active'">
+              <button *ngIf="filter === 'active'" mat-stroked-button>Active</button>
+              <button *ngIf="filter !== 'active'" mat-button>Active</button>
+            </span>
+            <span (click)="filter='completed'">
+              <button *ngIf="filter === 'completed'" mat-stroked-button>Completed</button>
+              <button *ngIf="filter !== 'completed'" mat-button>Completed</button>
+            </span>
+          </mat-list-item>
+          <div class="mat-small" *ngIf="items.length > 0">
+            <span class="info">
+              <mat-icon>info</mat-icon>{{getItemsLeft().length}} items left
+            </span>
+            <span class="del" (click)="deleteCompleted()">Clear Completed({{getItemsComplete().length}})</span>
+          </div>
+        </mat-list>
+      </mat-card>
+    </div>
+  </div>
+</div>

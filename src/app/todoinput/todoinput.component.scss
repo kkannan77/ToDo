@@ -1,0 +1,49 @@
+@import "./../../styles.scss";
+
+$section-border :#dedede;
+$header-font-color:#003755;
+$header-font-size:25px;
+$header-font-weight:bold;
+
+:host {
+
+  h2,
+  h3 {
+    font-family: 'danske_textregular';
+    font-weight: $header-font-weight;
+    color: $header-font-color;
+    font-family: "Helvetica Neue",sans-serif;
+    font-size: $header-font-size;
+  }
+
+  .todoinput {
+
+    &__header
+     {
+      border-bottom: 1px solid $section-border;
+      align-content: center;
+      padding: 2px;
+      text-align: center;
+    }
+
+    &__outer {
+      position: relative;
+      display: block;
+      width: 50%;
+      padding-bottom: 25px;
+      background-color: #ffffff;
+     
+    }
+
+    &__inner {
+      position: relative;
+      //width: 100%;
+      //height: 100%;
+      background-color:#ffffff;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid $section-border;
+    }
+
+  }
+}
