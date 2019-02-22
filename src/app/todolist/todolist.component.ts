@@ -11,5 +11,8 @@ export class TodoListComponent implements OnInit {
 
   ngOnInit() {
   }
-
+deleteTodo(index) {
+    this.todos.splice(index, 1);
+    localStorage.setItem("toDO", JSON.stringify(this.todos));
+  }
 }
